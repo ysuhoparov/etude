@@ -1,0 +1,185 @@
+#include <iostream>
+
+int BinarySearch(int A[], int Lb, int Ub, int Key) {
+	int M;
+	while (1) {
+		M = (Lb + Ub) / 2;
+		if (Key < A[M])
+			Ub = M - 1;
+		else if (Key > A[M])
+			Lb = M + 1;
+		else
+			return M;
+		if (Lb > Ub)
+			return Ub;
+	}
+}
+
+
+
+double Fact(long int N) {
+
+	if (N < 1) return 0;
+
+	else if (N == 1) return 1;
+
+	else return N * Fact(N - 1);
+}
+
+//Стандартный метод быстрой сортировки
+template <class T>
+void quickSortR(T a[], long N) {
+// На входе - массив a[],  a[N] - его последний элемент.
+// поставить указатели на исходные места
+long i = 0, j = N;
+T temp, p;
+p = a[N / 2]; // центральный элемент
+// процедура разделения 
+do {
+	while (a[i] > p) i++;
+	while (a[j] < p) j--;
+	if (i <= j) {
+		temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+		i++;
+		j--;
+	}
+} while (i <= j);
+
+//for (int i = 0; i < N; i++) {
+//	std::cout << a[i] << "\t";
+//}
+//std::cout << "\n";
+
+//рекурсивные вызовы, если есть, что сортировать
+if (j > 0) quickSortR(a, j);
+if (N > i) quickSortR(a + i, N - i);
+}
+
+
+// Обратный порядок сортировки
+void quickSort(float a[], int N) {
+	// a[N] - массив  размером N
+	int i = 0, j = N;				// указатели на начало, конец
+	float temp, p;
+	p = a[N / 2];					// центральный элемент
+
+	do {							// перестановка 
+		while (a[i] > p) i++;
+		while (a[j] < p) j--;
+		if (i <= j) {
+			temp = a[i];
+			a[i] = a[j];
+			a[j] = temp;
+			i++;
+			j--;
+		}
+	} while (i <= j);
+
+	// 	рекурсивные вызовы
+	if (j > 0) quickSort(a, j);
+	if (N > i) quickSort(a + i, N - i);
+}
+
+// 2-й метод
+// вспомогательная ф-я для индексирования 
+// массив index запоминает обработанный элементы
+bool exist(int ind, int* index, int len) {
+	for (int i = 0; i < len; i++) {
+		if (index[i] == -1) return false;
+		if (index[i] == ind) return true;
+	}
+	//return false;
+}
+
+
+int main() {
+	using namespace std;
+
+	system("chcp 1251");
+	const int SIZE = 10;
+	float  mArray[SIZE]{ 1.29, 2.31, 1.11, 3.4, 5.57, 5.42, 5.34, 5.15, 1.57, 1.25 };
+
+	int i, j, n;
+
+	// до сортировки 
+	for (i = 0; i < SIZE; i++)
+		cout << mArray[i] << "\t";
+
+	cout << "\n\n";
+
+	//1-й метод
+	quickSortR(mArray, SIZE - 1);
+
+	// после сортировки 
+	for (i = 0; i < SIZE; i++) {
+		cout << mArray[i] << "\t";
+	}
+	cout << "\n\n По убыванию\n";
+	//oбратный порядок
+	quickSort(mArray, SIZE - 1);
+
+	// после сортировки 
+	for (i = 0; i < SIZE; i++) {
+		cout << mArray[i] << "\t";
+	}
+
+	cout << "\n2-й метод\n";
+
+	//2-й метод
+
+	int indexSt[SIZE];
+	for (i = 0; i < SIZE; i++) indexSt[i] = -1;
+
+	float max;
+	int indexMin = -1;
+
+	for (i = 0; i < SIZE; i++) {				// indexing
+		for (n = 0; exist(n, indexSt, SIZE); n++);
+		max = mArray[n]; indexMin = n;
+
+		for (j = 0; j < SIZE; j++) {			// O(n^2).
+			if (exist(j, indexSt, SIZE)) continue;
+
+			if (mArray[j] > max) {
+				max = mArray[j]; indexMin = j;
+			}
+		}
+		indexSt[i] = indexMin;
+	} // (i = 0; i < SIZE; i++) {    
+
+	float* m2 = new float[SIZE];
+	for (i = 0;i < SIZE;i++) {
+		m2[i] = mArray[indexSt[i]];
+		cout << m2[i] << "\t";
+
+	}
+
+
+	//double result = Fact(159);
+	//cout << "\nResult is : " << result << "\n";
+
+
+
+
+
+
+	//BinarySearch(
+
+	int ar[]{ 11,22,33,45,55,59,67,76,89,99 };
+	int key, ind;
+	cout << "\n\n\n\n\n\n";
+		for (int i = 0;i < SIZE;i++) {
+			cout << ar[i] << "\t";
+		}
+
+	cout << "\n\n";
+	cout << "Enter any digit:";
+	cin >> key;
+	ind = BinarySearch(ar, 0, SIZE, key);
+	cout << "Index : " << ind << "\t"; cout << "\n\n";
+	return 0;
+
+}
+
