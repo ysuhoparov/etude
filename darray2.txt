@@ -1,0 +1,30 @@
+#include<iostream>
+#include<time.h>
+using namespace std;
+int main() {
+	//srand(time(NULL));
+	int size = 10;
+	int * dar, * dar2;
+
+	/* выделение памяти под массив с количеством
+	элементов size
+	*/
+	dar = new int[size];
+	// заполнение массива и показ на экран 
+	for (int i = 0; i < size; i++) {
+		dar[i] =  rand() % 25;
+		cout << dar[i] << "\t";
+	}
+	dar2 = new int[size];
+
+	int j = 0;
+
+	for (int i = 0; i < size; i++) {
+		if (dar[i] % 2) dar2[j++] = dar[i];
+	}
+
+	cout <<  "\nsorted size= "<< j<<"\n";
+
+	for (int i = 0; i < j; i++)
+		cout << dar2[i] << "\t";
+}
